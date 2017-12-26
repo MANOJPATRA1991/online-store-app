@@ -1,0 +1,18 @@
+<form #loginForm="ngForm">
+  <mat-card class="login-card">
+    <mat-card-title id="login">Log in</mat-card-title>
+    <mat-card-content>
+      <mat-form-field>
+        <input matInput placeholder="Email" type="email" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Password" type="password" required>
+      </mat-form-field>
+    </mat-card-content>
+    
+    <button mat-raised-button color="primary" [disabled]="!loginForm.valid" (click)="logIn()">Log in</button>
+    <button mat-raised-button color="accent" routerLink="/signup">Sign up Here</button>
+  </mat-card>
+
+</form>
