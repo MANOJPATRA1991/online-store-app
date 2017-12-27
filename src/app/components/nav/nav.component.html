@@ -1,0 +1,23 @@
+<mat-card id="nav">
+  <mat-card-title>
+    Online store
+    <button mat-icon-button id="menu" [matMenuTriggerFor]="menu">
+      Menu
+    </button>
+  </mat-card-title>
+</mat-card>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item *ngIf="!this.auth.isLoggedIn" routerLink="/signup">
+    <mat-icon>perm_identity</mat-icon>
+    <span>Sign up</span>
+  </button>
+  <button mat-menu-item *ngIf="!this.auth.isLoggedIn" routerLink="/login">
+    <mat-icon>lock_open</mat-icon>
+    <span>Log in</span>
+  </button>
+  <button mat-menu-item *ngIf="this.auth.isLoggedIn" (click)="logout()">
+    <mat-icon>lock_outline</mat-icon>
+    <span>Log out</span>
+  </button>
+</mat-menu>
