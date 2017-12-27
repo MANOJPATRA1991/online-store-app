@@ -1,0 +1,20 @@
+<mat-card>
+  <mat-card-title>
+    <i class="material-icons">account_circle</i>
+  </mat-card-title>
+  <mat-card-title>
+    {{ name }}
+  </mat-card-title>
+  <mat-card-content>
+    Email: {{ auth.email }}
+  </mat-card-content>
+  <mat-card-content>
+    Username: {{ auth.username }}
+  </mat-card-content>
+  <mat-card-content>
+    <button mat-raised-button (click)="editProfileDialog()"> Edit Profile </button>
+  </mat-card-content>
+  <mat-card-content>
+    <button mat-raised-button (click)="createItemDialog()"> Create new item </button>
+  </mat-card-content>
+</mat-card>
