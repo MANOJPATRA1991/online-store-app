@@ -18,8 +18,8 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit() {
     this.user = new User;
-    this.user.firstname = this.auth.name.split(' ')[0];
-    this.user.lastname = this.auth.name.split(' ')[1];
+    this.user.firstname = this.data.name.split(' ')[0];
+    this.user.lastname = this.data.name.split(' ')[1];
   }
 
   onNoClick(): void {
@@ -28,6 +28,7 @@ export class EditUserComponent implements OnInit {
 
   edit() {
     this.auth.editProfile(this.user);
+    this.onNoClick();
   }
 
 }
