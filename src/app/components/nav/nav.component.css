@@ -8,8 +8,26 @@
     padding-top: 5px;
 }
 
-#menu {
+#menu, #profile, #ico {
     position: absolute;
     float: right;
-    right: 100px;
+}
+
+#menu {
+    right: 80px;
+}
+
+#ico {
+    right: 20px;
+    bottom: 8px;
+}
+
+#profile {
+    right: 200px;
+}
+
+@media screen and (max-width: 600px) {
+    #menu {
+        bottom: 8px;
+    }
 }
