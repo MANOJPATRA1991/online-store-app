@@ -4,3 +4,8 @@
 body {
     background: rebeccapurple;
 }
+
+.alertError {
+    color: red;
+}
+
