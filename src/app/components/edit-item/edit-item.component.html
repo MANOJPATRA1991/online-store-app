@@ -1,0 +1,60 @@
+<div mat-dialog-title>
+  Edit item
+  <mat-tab-group>
+    <mat-tab label="Edit form">
+      <form>
+        <div mat-dialog-content>
+          <mat-form-field *ngIf="data.created_by == auth._id || auth.admin">
+            <input type="text" matInput name="title" id="title" [(ngModel)]="item.name" placeholder="Title">
+          </mat-form-field>
+          <mat-form-field *ngIf="data.created_by == auth._id || auth.admin">
+            <textarea matInput name="description" id="description" [(ngModel)]="item.description" 
+            placeholder="Description"></textarea>
+          </mat-form-field>
+          <mat-card-title *ngIf="data.created_by == auth._id || auth.admin">
+            Select rating
+          </mat-card-title>
+          <mat-slider *ngIf="data.created_by == auth._id || auth.admin" disabled min="1" max="10" thumbLabel tickInterval="1" name="max_rating" [(ngModel)]="item.max_rating"></mat-slider>
+          <mat-card-content *ngIf="data.created_by == auth._id">
+            <mat-select disabled placeholder="Multiplier" name="multiplier" [(ngModel)]="item.multiplier">
+              <mat-option *ngFor="let num of range" [value]="num">
+                {{ num }}
+              </mat-option>
+            </mat-select>
+          </mat-card-content>
+          <mat-card-subtitle *ngIf="data.created_by == auth._id || auth.admin">
+            Max rating: {{ item.max_rating }}
+          </mat-card-subtitle>
+          <mat-form-field *ngIf="data.created_by == auth._id || auth.admin">
+            <input matInput disabled [matDatepicker]="picker" placeholder="Choose a date" name="time_limit" [(ngModel)]="item.time_limit">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <input *ngIf="data.created_by == auth._id" type="file" name="photo" ng2FileSelect [uploader]="uploader" />
+          <!-- button to trigger the file upload when submitted -->
+          <button *ngIf="data.created_by == auth._id" type="button" mat-raised-button (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                Upload Image
+          </button>
+          <div mat-dialog-actions *ngIf="data.created_by == auth._id">
+            <button mat-raised-button (click)="onNoClick()" color="accent"> Cancel </button>
+            <button mat-raised-button (click)="editItem()" color="primary" cdkFocusInitial> Edit </button>
+          </div>
+        </div>
+      </form>
+    </mat-tab>
+    <mat-tab label="Update Group" *ngIf="auth.admin">
+      <div mat-dialog-content>
+        <div *ngFor="let group of groupsList">
+          <mat-checkbox [checked]="data.group.includes(group)" 
+          (change)="change($event, group)">
+            {{ group }}
+          </mat-checkbox>
+        </div>
+      </div>
+      <div mat-dialog-actions>
+        <button mat-raised-button (click)="onNoClick()" color="primary" cdkFocusInitial> Save </button>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
