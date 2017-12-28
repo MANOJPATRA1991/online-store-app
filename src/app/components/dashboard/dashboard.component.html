@@ -1,8 +1,31 @@
-<mat-grid-list class="grid" cols="4">
-    <mat-grid-tile colspan="1">
-        <app-user></app-user>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="2">
-        
-    </mat-grid-tile>
-</mat-grid-list>
+<mat-sidenav-container class="sidenav">
+    <mat-sidenav *ngIf="itemService.sidenav" mode="side" align="end" opened class="mat-elevation-z6">
+        <div>
+            <mat-tab-group (selectedTabChange)="getItems($event)">
+                <mat-tab label="My Items">
+                    <app-items-list [cols]="cols" [items]="items" (itemEvent)="showDetails($event)"></app-items-list>
+                </mat-tab>
+                <mat-tab label="Liked Items">
+                    <mat-form-field class="search">
+                        <input matInput placeholder="Search by item name" [(ngModel)]="searchText">
+                    </mat-form-field>
+                </mat-tab>
+                <span *ngFor="let group of groups">
+                    <mat-tab label="{{ group }}">
+                        <mat-form-field class="search">
+                            <input matInput placeholder="Search by item name" [(ngModel)]="searchText">
+                        </mat-form-field>
+                    </mat-tab>
+                </span>
+                <mat-tab *ngIf="auth.admin" label="Need Approval">
+                    <app-items-list [cols]="cols" [items]="items" (itemEvent)="showDetails($event)"></app-items-list>
+                </mat-tab>
+                <mat-tab *ngIf="auth.admin" label="Incomplete">
+                    <app-items-list [cols]="cols" [items]="items" (itemEvent)="showDetails($event)"></app-items-list>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </mat-sidenav>
+
+    <app-item-detail [model]="model" [value]="value" [color]="color" (approveEvent)="approveItem($event)"  (editEvent)="editItemForm(model)"></app-item-detail>
+</mat-sidenav-container>
