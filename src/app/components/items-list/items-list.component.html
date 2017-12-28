@@ -1,0 +1,14 @@
+<mat-form-field class="search">
+  <input matInput placeholder="Search by item name" [(ngModel)]="searchText">
+</mat-form-field>
+<mat-grid-list [cols]="cols" rowHeight="250px">
+  <mat-grid-tile *ngFor="let item of items | search : searchText">
+      <img mat-card-image src="http://localhost:3000/{{item.image}}" alt="{{item.name}}">
+      <mat-grid-tile-footer>
+          <h3>{{item.name}}</h3>
+          <button mat-icon-button (click)="showDetails(item)">
+              <mat-icon>info</mat-icon>
+          </button>
+      </mat-grid-tile-footer>
+  </mat-grid-tile>
+</mat-grid-list>
