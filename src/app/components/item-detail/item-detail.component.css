@@ -1,0 +1,37 @@
+#model {
+    width: 200px;
+    height: 200px;
+}
+
+
+button {
+    width: 100%;
+    margin-bottom: 3px;
+}
+#approved {
+    color: green;
+}
+
+#pending {
+    color: red;
+}
+
+#star {
+    color: gold;
+}
+@media screen and (min-width: 768px) {
+    .model mat-card {
+        width: 600px;
+        margin: 0 auto;
+    }
+
+    #model {
+        margin-left: 200px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #model {
+        margin-left: 23.68%;
+    }
+}
