@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/toPromise';
 import { User } from '../logic/User';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 const baseURL = "http://localhost:3000";
 
@@ -13,12 +14,12 @@ export class UserService {
 
   TOKEN_KEY: string = 'Token';
   message = '';
-  isLoggedIn: boolean = false;
+  isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isVerified: boolean = false;
   admin: boolean = false;
   authToken: string = undefined;
   _id: string = '';
-  name: string = '';
+  name: BehaviorSubject<string> = new BehaviorSubject<string>('');
   username: string = '';
   email: string = '';
 
@@ -32,12 +33,12 @@ export class UserService {
    * @param credentials
    */
   public useCredentials(credentials):void {
-    this.isLoggedIn = true;
+    this.isLoggedIn.next(true);
     this.username = credentials.username;
     this.authToken = credentials.token;
     this.admin = credentials.admin;
     this._id = credentials._id;
-    this.name = credentials.name;
+    this.name.next(credentials.name);
     this.email = credentials.email;
 
     // Set the token as header for your requests!
@@ -60,7 +61,8 @@ export class UserService {
     this.authToken = undefined;
     this.username = '';
     this.admin = false;
-    this.isLoggedIn = false;
+    this.isLoggedIn.next(false);
+    this.name.next('');
     this.headers.delete('x-access-token');
     // this.local.remove(this.TOKEN_KEY);
   }
@@ -122,12 +124,23 @@ export class UserService {
     return this.http.put(baseURL + `/users/edit/${this._id}`, model, {headers: this.headers}).toPromise()
     .then((response) => {
       this.message = '';
-      this.name = response.json().name;
-      this.route.navigateByUrl('/dashboard');
+      this.name.next(response.json().name);
+      console.log(response.json().name);
     })
     .catch((err) => {
       console.log(err);
       this.message = err.json().err.message;
     });
+  }
+
+  getMyGroups() {
+    return this.http.get(`${baseURL}/users/myGroups`, {headers: this.headers}) .toPromise()
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 }
