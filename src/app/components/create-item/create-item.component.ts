@@ -7,7 +7,7 @@ import { UserService } from '../../services/user.service';
 import { ItemService } from '../../services/item.service';
 import { Item } from '../../logic/Item';
 
-const URL = 'http://localhost:3000/upload';
+const URL = 'http://localhost:3000';
 
 @Component({
   selector: 'app-create-item',
@@ -19,7 +19,7 @@ export class CreateItemComponent implements OnInit {
   item: Item;
   range: Array<Number> = [];
 
-  public uploader:FileUploader = new FileUploader({url: URL, itemAlias: 'photo'});
+  public uploader:FileUploader = new FileUploader({url: `${URL}/upload`, itemAlias: 'photo'});
 
   constructor(
     public itemService: ItemService,
@@ -36,8 +36,7 @@ export class CreateItemComponent implements OnInit {
     this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
     this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
       console.log("ImageUpload:uploaded:", item, status, response);
-      this.item.image = JSON.parse(response).path;
-      console.log(this.item.image);
+      this.item.image = `${JSON.parse(response).file}`;
     };
   }
 
@@ -48,7 +47,7 @@ export class CreateItemComponent implements OnInit {
   createItem() {
     this.item.max_rating = this.calculateRating();
     this.itemService.createItem({
-        name: this.item.title,
+        name: this.item.name,
         image: this.item.image,
         description: this.item.description,
         max_rating: this.item.max_rating,
