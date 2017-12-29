@@ -22,7 +22,8 @@ export class UserService {
   name: BehaviorSubject<string> = new BehaviorSubject<string>('');
   username: string = '';
   email: string = '';
-
+  myGroups: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  
   public headers: Headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http, private route: Router) {
@@ -121,7 +122,7 @@ export class UserService {
   }
 
   editProfile(model): Promise<any> {
-    return this.http.put(baseURL + `/users/edit/${this._id}`, model, {headers: this.headers}).toPromise()
+    return this.http.put(`${baseURL}/users/edit/${this._id}`, model, {headers: this.headers}).toPromise()
     .then((response) => {
       this.message = '';
       this.name.next(response.json().name);
@@ -134,13 +135,32 @@ export class UserService {
   }
 
   getMyGroups() {
-    return this.http.get(`${baseURL}/users/myGroups`, {headers: this.headers}) .toPromise()
-      .then((response) => {
-        console.log(response);
-        return response.json();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    return this.http.get(`${baseURL}/users/myGroups`, {headers: this.headers})
+    .map((response) => {
+      console.log(response);
+      return response.json();
+    });
+  }
+
+  updateMyGroups(data) {
+    return this.http.put(`${baseURL}/users/updateGroups`, data, {headers: this.headers})
+    .map((response) => {
+      console.log(response);
+      return response.json().groups;
+    });
+  }
+
+  getUser(uid) {
+    return this.http.get(`${baseURL}/users/${uid}`, {headers: this.headers})
+    .map((response) => {
+      return response.json();
+    });
+  }
+
+  getAllUsers() {
+    return this.http.get(`${baseURL}/users/getAll`, {headers: this.headers})
+    .map((response) => {
+      return response.json();
+    });
   }
 }
