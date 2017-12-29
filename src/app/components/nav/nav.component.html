@@ -2,13 +2,13 @@
   <mat-toolbar color="primary" class="mat-elevation-z10" id="nav">
     <mat-toolbar-row>
       Online store
-      <button mat-icon-button id="menu" [matMenuTriggerFor]="menu">
+      <button mat-icon-button id="menu" *ngIf="!isLoggedIn" [matMenuTriggerFor]="menu">
         Menu
       </button>
-      <button mat-icon-button id="ico" (click)="toggleSidenav()">
+      <button mat-icon-button id="ico" *ngIf="isLoggedIn" (click)="toggleSidenav()">
         <i class="material-icons">apps</i>
       </button>
-      <button mat-icon-button id="profile" *ngIf="auth.isLoggedIn" [matMenuTriggerFor]="profile">
+      <button mat-icon-button id="profile" *ngIf="isLoggedIn" [matMenuTriggerFor]="profile">
         {{ name }}
       </button>
     </mat-toolbar-row>
@@ -16,17 +16,13 @@
 </section>
 
 <mat-menu #menu="matMenu">
-  <button mat-menu-item *ngIf="!this.isLoggedIn" routerLink="/signup">
+  <button mat-menu-item *ngIf="!isLoggedIn" routerLink="/signup">
     <mat-icon>perm_identity</mat-icon>
     <span>Sign up</span>
   </button>
-  <button mat-menu-item *ngIf="!this.isLoggedIn" routerLink="/login">
+  <button mat-menu-item *ngIf="!isLoggedIn" routerLink="/login">
     <mat-icon>lock_open</mat-icon>
     <span>Log in</span>
-  </button>
-  <button mat-menu-item *ngIf="this.isLoggedIn" (click)="logout()">
-    <mat-icon>lock_outline</mat-icon>
-    <span>Log out</span>
   </button>
 </mat-menu>
 
@@ -39,8 +35,12 @@
     <mat-icon>add</mat-icon>
     <span>Add new item</span>
   </button>
-  <button mat-menu-item *ngIf="auth.admin" (click)="addGroupDialog()">
+  <button mat-menu-item (click)="addGroupDialog()">
     <mat-icon>add</mat-icon>
-    <span>Create new group</span>
+    <span>Add Group</span>
+  </button>
+  <button mat-menu-item *ngIf="isLoggedIn" (click)="logout()">
+    <mat-icon>lock_outline</mat-icon>
+    <span>Log out</span>
   </button>
 </mat-menu>

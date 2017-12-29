@@ -25,7 +25,6 @@ export class NavComponent implements OnInit, OnDestroy {
 
     this.auth.name.subscribe(value => {
       this.name = value;
-      console.log(value);
     });
   }
 
