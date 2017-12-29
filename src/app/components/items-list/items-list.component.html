@@ -3,12 +3,20 @@
 </mat-form-field>
 <mat-grid-list [cols]="cols" rowHeight="250px">
   <mat-grid-tile *ngFor="let item of items | search : searchText">
+      <mat-grid-tile-header class="expired" *ngIf="checkExpiry(item) && auth.admin">
+            <button mat-icon-button class="delete" (click)="deleteItem(item._id)">
+                <span matTooltip="Delete expired item">
+                    <mat-icon>delete</mat-icon>
+                </span>
+            </button>
+      </mat-grid-tile-header>
       <img mat-card-image src="http://localhost:3000/{{item.image}}" alt="{{item.name}}">
-      <mat-grid-tile-footer>
+      <mat-grid-tile-footer [ngClass]="{'expired': checkExpiry(item)}">
           <h3>{{item.name}}</h3>
-          <button mat-icon-button (click)="showDetails(item)">
+          <button class="info" mat-icon-button (click)="showDetails(item)">
               <mat-icon>info</mat-icon>
           </button>
       </mat-grid-tile-footer>
   </mat-grid-tile>
 </mat-grid-list>
+

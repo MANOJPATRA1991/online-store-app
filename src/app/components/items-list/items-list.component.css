@@ -1,3 +1,21 @@
 .search {
     width: 100%;
 }
+
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-grid-list {
+    margin-bottom: 50px;
+}
+
+.info, .delete {
+    position: absolute;
+    right: 0;
+}
+
+.expired {
+    background: rgba(249, 9, 9, 0.38) !important;
+}
