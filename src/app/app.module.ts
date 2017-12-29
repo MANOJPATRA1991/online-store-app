@@ -26,7 +26,8 @@ import {
   MatTabsModule,
   MatProgressSpinnerModule,
   MatProgressBarModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatPaginatorModule
 } from '@angular/material';
 
 
@@ -56,7 +57,12 @@ import { SearchPipe } from './pipes/search.pipe';
 import { ItemsListComponent } from './components/items-list/items-list.component';
 import { ItemDetailComponent } from './components/item-detail/item-detail.component';
 import { AddGroupComponent } from './components/add-group/add-group.component';
+import { FooterComponent } from './components/footer/footer.component';
 
+import { StarRatingModule } from 'angular-star-rating';
+import { MailService } from './services/mail.service';
+import { ActivateGuard } from './guards/activate.guard';
+import { DeactivateGuard } from './guards/deactivate.guard';
 
 @NgModule({
   declarations: [
@@ -73,7 +79,8 @@ import { AddGroupComponent } from './components/add-group/add-group.component';
     SearchPipe,
     ItemsListComponent,
     ItemDetailComponent,
-    AddGroupComponent
+    AddGroupComponent,
+    FooterComponent
   ],
   entryComponents: [
     EditUserComponent,
@@ -84,6 +91,7 @@ import { AddGroupComponent } from './components/add-group/add-group.component';
   imports: [
     routing,
     BrowserModule,
+    StarRatingModule.forRoot(),
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
@@ -109,12 +117,16 @@ import { AddGroupComponent } from './components/add-group/add-group.component';
     MatProgressBarModule,
     MatTabsModule,
     MatCheckboxModule,
+    MatPaginatorModule,
     LayoutModule
   ],
   providers: [
     UserService,
     ItemService,
-    GroupService
+    GroupService,
+    MailService,
+    ActivateGuard,
+    DeactivateGuard
   ],
   bootstrap: [AppComponent]
 })
