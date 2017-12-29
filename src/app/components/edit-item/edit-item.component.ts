@@ -57,17 +57,13 @@ export class EditItemComponent implements OnInit {
 
   getAllGroups() {
     this.groups.getAllGroups().subscribe(value => {
-      console.log(value);
       this.groupsList = value;
     })
   }
 
   change(event, group) {
-    console.log(event);
     this.groups.updateItemGroup(this.data._id, {newGroup: group, checked: event.checked}).subscribe(value => {
-      console.log(value);
       this.item = value;
-      console.log(this.item);
       this.itemService.item.next(value);
     });
   }
