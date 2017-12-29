@@ -8,20 +8,18 @@ import { EditItemComponent } from '../edit-item/edit-item.component';
 import { SearchPipe} from '../../pipes/search.pipe';
 import { Output } from '@angular/core/src/metadata/directives';
 import { ItemsListComponent } from '../items-list/items-list.component';
-import { AfterViewChecked } from '@angular/core/src/metadata/lifecycle_hooks';
+import { MailService } from '../../services/mail.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit, AfterViewChecked {
+export class DashboardComponent implements OnInit {
   cols: Number;
   items: any = [];
   groups: any = [];
   model: any = new Item();
-  value: Number;
-  color: string;
   searchText: string;
 
   @ViewChild(ItemsListComponent) viewChild: ItemsListComponent;
@@ -29,6 +27,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
 
   constructor(public itemService: ItemService,
   public auth: UserService,
+  public mail:MailService,
   public breakpointObserver: BreakpointObserver,
   public dialog: MatDialog,
 ) {
@@ -40,7 +39,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     if (result.matches) {
       this.cols = 2;
     } else {
-      this.cols = 4;
+      this.cols = 6;
     }
   });
 }
@@ -58,17 +57,21 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
         this.items.push(value);
       }
       this.model = value;
+      this.auth.isLoggedIn.subscribe(value => {
+        console.log(value);
+      });
     });
 
     this.itemService.items.subscribe(value => {
       this.items = value;
     });
 
+    this.auth.myGroups.subscribe(value => {
+      this.groups = value;
+    });
+
     this.getItemsCreatedByUser();
     this.getMyGroups();
-  }
-  
-  ngAfterViewChecked() {
   }
 
   getItemsCreatedByUser() {
@@ -79,7 +82,7 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
   }
 
   getMyGroups() {
-    this.auth.getMyGroups().then(value => {
+    this.auth.getMyGroups().subscribe(value => {
       this.groups = value;
     });
   }
@@ -95,6 +98,9 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
         break;
       case "Incomplete":
         this.getIncompleteItems();
+        break;
+      default:
+        this.getItemsByGroup(event.tab.textLabel);
     }
   }
 
@@ -111,18 +117,17 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
       this.items = value;
     });
   }
+
+  getItemsByGroup(group) {
+    this.itemService.getItemsByGroup(group)
+    .subscribe(value => {
+      this.items = value;
+    })
+  }
   
   showDetails($event) {
+    this.itemService.sidenav = false;
     this.model = $event;
-    this.value = (+this.model.rating / +this.model.max_rating);
-    let percent = +this.value*100;
-    if (percent < 30) {
-      this.color = "warn";
-    } else if (percent > 30 &&  percent < 70) {
-      this.color = "accent";
-    } else {
-      this.color = "primary";
-    }
   }
 
   editItemForm(item): void {
@@ -132,7 +137,6 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
@@ -141,9 +145,25 @@ export class DashboardComponent implements OnInit, AfterViewChecked {
       let index = this.items.findIndex((elem) => {
         return elem._id == value._id;
       });
-      this.items.splice(index, 1);
-      this.itemService.items.next(this.items);
-      this.model = value;
+      let user = '';
+      this.auth.getUser(value.created_by).subscribe(value => {
+        user = value.email;
+        let output =
+        `
+        <h1>Notification from Online stores app</h1>
+        <p> This is to inform you that your item 
+        ${this.items[index].name.toUpperCase()} 
+        has been approved and now available for rating by users.</p>
+        <p>Thanks.</p>
+        <p>Online store app</p>
+        `;  
+        this.mail.sendMail(output, [user]).subscribe(value => {
+          console.log(value);
+        });
+        this.items.splice(index, 1);
+        this.itemService.items.next(this.items);
+        this.model = value;
+      });
     });
   }
 }
