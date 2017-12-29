@@ -3,10 +3,13 @@ import { SignupComponent } from './components/user/signup/signup.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
+import { ActivateGuard } from './guards/activate.guard';
+import { DeactivateGuard } from './guards/deactivate.guard';
+
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'signup',
+        redirectTo: 'login',
         pathMatch: 'full'
     },
     {
@@ -19,7 +22,8 @@ const routes: Routes = [
     },
     {
         path: 'dashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
+        canActivate: [ActivateGuard]
     }
 ];
 
