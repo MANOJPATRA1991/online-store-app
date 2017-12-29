@@ -57,7 +57,6 @@ import { SearchPipe } from './pipes/search.pipe';
 import { ItemsListComponent } from './components/items-list/items-list.component';
 import { ItemDetailComponent } from './components/item-detail/item-detail.component';
 import { AddGroupComponent } from './components/add-group/add-group.component';
-import { FooterComponent } from './components/footer/footer.component';
 
 import { StarRatingModule } from 'angular-star-rating';
 
@@ -79,8 +78,7 @@ import { DeactivateGuard } from './guards/deactivate.guard';
     SearchPipe,
     ItemsListComponent,
     ItemDetailComponent,
-    AddGroupComponent,
-    FooterComponent
+    AddGroupComponent
   ],
   entryComponents: [
     EditUserComponent,
