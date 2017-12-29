@@ -18,7 +18,8 @@ export class CreateItemComponent implements OnInit {
 
   item: Item;
   range: Array<Number> = [];
-
+  formFile: any;
+  
   public uploader:FileUploader = new FileUploader({url: `${URL}/upload`, itemAlias: 'photo'});
 
   constructor(
@@ -28,6 +29,8 @@ export class CreateItemComponent implements OnInit {
 
   ngOnInit() {
     this.item = new Item();
+    this.item.max_rating = 1;
+    this.item.multiplier = 1;
 
     for (let i = 0; i < 10; i++) {
       this.range.push(i+1);
