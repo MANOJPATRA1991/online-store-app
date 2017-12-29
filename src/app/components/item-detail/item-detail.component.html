@@ -27,7 +27,10 @@
         <mat-card-content>
                 <p *ngIf="model.approved" id="approved">Item approved</p>
                 <p *ngIf="!model.approved" id="pending">Pending Approval</p>
-                <p><mat-icon id="star">star</mat-icon>{{ model.rating }}</p>
+                <p>
+                    <mat-icon id="star">star</mat-icon>
+                    <span id="span-star">{{ model.rating | number:'.1-2' }}</span>
+                </p>
                 <mat-card-title *ngIf="model.created_by !== auth._id">
                     Rate this item
                 </mat-card-title>
@@ -57,7 +60,7 @@
             </button>
         </mat-card-actions>
         <mat-card-actions>
-            <button mat-raised-button *ngIf="auth.admin">
+            <button mat-raised-button *ngIf="auth.admin && model.approved" (click)="sendEmails(model)">
                 <mat-icon>send</mat-icon> 
                 <span>Email item details</span>
             </button>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../../logic/User';
 import { UserService } from '../../../services/user.service';
 import { Observable } from 'rxjs/Observable';
@@ -18,15 +18,12 @@ export class SignupComponent implements OnInit {
     this.user = new User();
   }
 
+  /**
+   * Sign up new user
+   */
   signup() {
-    this.error = '';
-    this.data = new Observable(observer => {
-      setTimeout(() => {
-          observer.next(this.auth.message);
-      }, 1000);
-    });
 
-    let subscription = this.data.subscribe(
+    this.auth.message.subscribe(
       value => this.error = value,
       error => this.error = error
     );
@@ -35,10 +32,6 @@ export class SignupComponent implements OnInit {
       this.auth.register(this.user);
     } else {
       this.error = "Passwords don't match"
-    }
-
-    if(this.auth.isLoggedIn){
-      subscription.unsubscribe();
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../../logic/User';
 import { UserService } from '../../../services/user.service';
 import { Observable } from 'rxjs/Observable';
@@ -19,24 +19,18 @@ export class LoginComponent implements OnInit {
     this.user = new User();
   }
 
+  /**
+   * Log in user
+   */
   logIn() {
-    this.error = '';
-    this.data = new Observable(observer => {
-      setTimeout(() => {
-          observer.next(this.auth.message);
-      }, 1000);
-    });
 
-    let subscription = this.data.subscribe(
+    this.auth.message.subscribe(
       value => this.error = value,
       error => this.error = error
     );
 
     this.auth.login(this.user);
     
-    if(this.auth.isLoggedIn){
-      subscription.unsubscribe();
-    }
   }
 
 }

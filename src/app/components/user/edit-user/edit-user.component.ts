@@ -22,10 +22,16 @@ export class EditUserComponent implements OnInit {
     this.user.lastname = this.data.name.split(' ')[1];
   }
 
+  /**
+   * Close dialog
+   */
   onNoClick(): void {
     this.dialogRef.close();
   }
 
+  /**
+   * Edit user profile
+   */
   edit() {
     this.auth.editProfile(this.user);
     this.onNoClick();

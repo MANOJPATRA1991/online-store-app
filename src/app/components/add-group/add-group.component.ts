@@ -21,10 +21,12 @@ export class AddGroupComponent implements OnInit {
 
   ngOnInit() {
 
+    // get all available groups
     this.groups.getAllGroups().subscribe(value => {
       this.allGroups = value;
     });
 
+    // subscribe to user's groups
     this.auth.myGroups.subscribe(value => {
       this.myGroups = value;
     });
@@ -32,10 +34,16 @@ export class AddGroupComponent implements OnInit {
     this.getMyGroups();
   }
 
+  /**
+   * Close the dialog
+   */
   onNoClick(): void {
     this.dialogRef.close();
   }
 
+  /**
+   * Add a new group to the list of groups
+   */
   addNewGroup() {
     this.groups.addNewGroup({newGroup: this.group.toUpperCase()})
     .subscribe(value => {
@@ -44,12 +52,20 @@ export class AddGroupComponent implements OnInit {
     });
   }
 
+  /**
+   * Get all groups the user has subscribed to
+   */
   getMyGroups() {
     this.auth.getMyGroups().subscribe(value => {
       this.myGroups = value;
     });
   }
 
+  /**
+   * Update user's groups
+   * @param event: Select event 
+   * @param {string} group: Group to update
+   */
   change(event, group) {
     this.auth.updateMyGroups({
       newGroup: group,

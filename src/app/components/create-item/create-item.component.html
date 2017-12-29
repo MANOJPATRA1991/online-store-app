@@ -34,7 +34,7 @@
     <button type="button" mat-raised-button (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
           Upload Image
     </button>
-    <div mat-dialog-actions>
+    <div id="action">
       <button mat-raised-button (click)="onNoClick()" color="accent"> Cancel </button>
       <button mat-raised-button (click)="createItem()" color="primary" cdkFocusInitial [disabled]="!createForm.valid"> Create </button>
     </div>

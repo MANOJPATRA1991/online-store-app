@@ -30,6 +30,10 @@ export class ItemsListComponent implements OnInit, OnChanges {
     
   }
 
+  /**
+   * Checks the expiry of the item
+   * @param model : Item
+   */
   checkExpiry(model) {
     let modelDate = new Date(model.time_limit);
     // If item has not expired
@@ -41,6 +45,10 @@ export class ItemsListComponent implements OnInit, OnChanges {
     }
   }
  
+  /**
+   * Delete item from the database
+   * @param itemId: The item id
+   */
   deleteItem(itemId) {
     this.itemService.deleteItem(itemId)
     .subscribe(value => {
@@ -53,7 +61,7 @@ export class ItemsListComponent implements OnInit, OnChanges {
         <h1>Notification from Online stores app</h1>
         <p> This is to inform you that your item ${item.name.toUpperCase()}
         has been deleted from the database since it failed to achieve
-        the maximum rating with the time limit provided</p>
+        the maximum rating with the time limit provided.</p>
         <p>Thanks.</p>
         <p>Online store app</p>
         `;  
@@ -71,6 +79,10 @@ export class ItemsListComponent implements OnInit, OnChanges {
     this.itemService.items.next(this.items);
   }
 
+  /**
+   * Show item details
+   * @param item : Item
+   */
   showDetails(item) {
     this.itemEvent.emit(item);
   }

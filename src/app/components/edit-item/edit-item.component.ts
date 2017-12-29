@@ -8,8 +8,8 @@ import { ItemService } from '../../services/item.service';
 import { Item } from '../../logic/Item';
 import { GroupService } from '../../services/group.service';
 
-const URL = 'http://localhost:3000';
-
+const URL = 'https://item-store.herokuapp.com';
+// const URL = "http://localhost:3000";
 @Component({
   selector: 'app-edit-item',
   templateUrl: './edit-item.component.html',
@@ -46,21 +46,35 @@ export class EditItemComponent implements OnInit {
     this.getAllGroups();
   }
 
+  /**
+   * Close dialog
+   */
   onNoClick(): void {
     this.dialogRef.close();
   }
 
+  /**
+   * Edit item details
+   */
   editItem() {
     this.itemService.editItem(this.item);
     this.onNoClick();
   }
 
+  /**
+   * Get all available groups
+   */
   getAllGroups() {
     this.groups.getAllGroups().subscribe(value => {
       this.groupsList = value;
     })
   }
 
+  /**
+   * Change event fired by select checkbox
+   * @param event 
+   * @param group : Group to be added to item's groups
+   */
   change(event, group) {
     this.groups.updateItemGroup(this.data._id, {newGroup: group, checked: event.checked}).subscribe(value => {
       this.item = value;

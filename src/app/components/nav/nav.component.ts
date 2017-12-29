@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
@@ -14,7 +14,7 @@ import { AddGroupComponent } from '../add-group/add-group.component';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent implements OnInit, OnDestroy {
+export class NavComponent implements OnInit {
 
   constructor(
     public auth: UserService, 
@@ -37,12 +37,16 @@ export class NavComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Logs out the user
+   */
   logout() {
     this.auth.logout();
   }
 
-  
-
+  /**
+   * Open edit profile dialog
+   */
   editProfileDialog(): void {
     let dialogRef = this.dialog.open(EditUserComponent, {
       width: '500px',
@@ -54,6 +58,9 @@ export class NavComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Open create item dialog
+   */
   createItemDialog(): void {
     let dialogRef = this.dialog.open(CreateItemComponent, {
       width: '500px'
@@ -64,6 +71,9 @@ export class NavComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Open dialog to add new group
+   */
   addGroupDialog(): void {
     let dialogRef = this.dialog.open(AddGroupComponent, {
       width: '500px'
@@ -74,11 +84,11 @@ export class NavComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Toggle the sidenav
+   */
   toggleSidenav() {
     this.itemService.sidenav = !this.itemService.sidenav;
-  }
-  
-  ngOnDestroy() {
   }
 
 }

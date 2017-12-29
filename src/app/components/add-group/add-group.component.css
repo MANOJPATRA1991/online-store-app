@@ -9,7 +9,3 @@ mat-slider {
 mat-tab {
     width: 100%;
 }
-
-.mat-tab-body, mat-tab-body {
-    height: 500px;
-}

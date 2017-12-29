@@ -12,11 +12,11 @@
       <input matInput placeholder="Last Name" type="text" 
       name="lastname" [(ngModel)]="user.lastname">
     </mat-form-field>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-raised-button color="accent"
-    (click)="onNoClick()">Cancel</button>
-    <button mat-raised-button color="primary"
-    (click)="edit()" cdkFocusInitial>Edit</button>
+    <div>
+      <button mat-raised-button color="accent"
+      (click)="onNoClick()">Cancel</button>
+      <button mat-raised-button color="primary"
+      (click)="edit()" cdkFocusInitial>Edit</button>
+    </div>
   </div>
 </form>

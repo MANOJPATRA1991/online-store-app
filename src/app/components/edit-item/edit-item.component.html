@@ -35,7 +35,7 @@
           <button *ngIf="data.created_by == auth._id" type="button" mat-raised-button (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
                 Upload Image
           </button>
-          <div mat-dialog-actions *ngIf="data.created_by == auth._id">
+          <div id="action" *ngIf="data.created_by == auth._id">
             <button mat-raised-button (click)="onNoClick()" color="accent"> Cancel </button>
             <button mat-raised-button (click)="editItem()" color="primary" cdkFocusInitial> Edit </button>
           </div>
@@ -51,7 +51,8 @@
           </mat-checkbox>
         </div>
       </div>
-      <div mat-dialog-actions>
+      <div id="action">
+        <button mat-raised-button (click)="onNoClick()" color="accent"> Cancel </button>
         <button mat-raised-button (click)="onNoClick()" color="primary" cdkFocusInitial> Save </button>
       </div>
     </mat-tab>

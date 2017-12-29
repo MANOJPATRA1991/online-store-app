@@ -5,3 +5,7 @@ mat-form-field {
 mat-slider {
     width: 100%;
 }
+
+#action {
+    margin-top: 10px;
+}

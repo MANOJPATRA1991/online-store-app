@@ -74,6 +74,9 @@ export class DashboardComponent implements OnInit {
     this.getMyGroups();
   }
 
+  /**
+   * Get all items created by user
+   */
   getItemsCreatedByUser() {
     this.itemService.getItemsCreatedByUser()
     .subscribe(value => {
@@ -81,12 +84,19 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  /**
+   * Get user's groups
+   */
   getMyGroups() {
     this.auth.getMyGroups().subscribe(value => {
       this.groups = value;
     });
   }
 
+  /**
+   * Get items related to tab
+   * @param event: Tab change event
+   */
   getItems(event: MatTabChangeEvent) {
     this.items = [];
     switch(event.tab.textLabel) {
@@ -104,6 +114,9 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  /**
+   * Get all items pending approval
+   */
   getPendingItems() {
     this.itemService.getPendingItems()
     .subscribe(value => {
@@ -111,6 +124,9 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  /**
+   * Get all incomplete items
+   */
   getIncompleteItems() {
     this.itemService.getIncompleteItems()
     .subscribe(value => {
@@ -118,6 +134,10 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  /**
+   * Get all items by group
+   * @param {string} group: Group to which items belong to
+   */
   getItemsByGroup(group) {
     this.itemService.getItemsByGroup(group)
     .subscribe(value => {
@@ -125,11 +145,19 @@ export class DashboardComponent implements OnInit {
     })
   }
   
+  /**
+   * Show details for the item
+   * @param $event
+   */
   showDetails($event) {
-    this.itemService.sidenav = false;
+    this.itemService.sidenav = true;
     this.model = $event;
   }
 
+  /**
+   * Edit item details
+   * @param item: Item
+   */
   editItemForm(item): void {
     let dialogRef = this.dialog.open(EditItemComponent, {
       width: '500px',
@@ -140,6 +168,10 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  /**
+   * Approve item by admin
+   * @param $event
+   */
   approveItem($event) {
     this.itemService.approveItem($event).subscribe(value => {
       let index = this.items.findIndex((elem) => {
@@ -153,7 +185,8 @@ export class DashboardComponent implements OnInit {
         <h1>Notification from Online stores app</h1>
         <p> This is to inform you that your item 
         ${this.items[index].name.toUpperCase()} 
-        has been approved and now available for rating by users.</p>
+        has been approved and now available for rating by users.
+        The item is available in groups ${this.items[index].group.join(', ')}.</p>
         <p>Thanks.</p>
         <p>Online store app</p>
         `;  

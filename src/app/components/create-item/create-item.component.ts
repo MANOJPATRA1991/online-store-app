@@ -7,8 +7,8 @@ import { UserService } from '../../services/user.service';
 import { ItemService } from '../../services/item.service';
 import { Item } from '../../logic/Item';
 
-const URL = 'http://localhost:3000';
-
+const URL = 'https://item-store.herokuapp.com';
+// const URL = "http://localhost:3000";
 @Component({
   selector: 'app-create-item',
   templateUrl: './create-item.component.html',
@@ -43,10 +43,16 @@ export class CreateItemComponent implements OnInit {
     };
   }
 
+  /**
+   * Close the dialog
+   */
   onNoClick(): void {
     this.dialogRef.close();
   }
 
+  /**
+   * Create a new item
+   */
   createItem() {
     this.item.max_rating = this.calculateRating();
     this.itemService.createItem({
@@ -62,6 +68,9 @@ export class CreateItemComponent implements OnInit {
     this.onNoClick();
   }
 
+  /**
+   * Calculate item's ratings
+   */
   calculateRating() {
     return (+this.item.max_rating)*(+this.item.multiplier);
   }

@@ -6,8 +6,6 @@
           <mat-form-field>
             <input type="text" matInput name="group" id="group" [(ngModel)]="group" placeholder="Title">
           </mat-form-field>
-        </div>
-        <div mat-dialog-actions>
           <button mat-raised-button (click)="onNoClick()" color="accent"> Cancel </button>
           <button mat-raised-button (click)="addNewGroup()" color="primary" cdkFocusInitial> Add </button>
         </div>
@@ -20,10 +18,10 @@
             {{ group }}
           </mat-checkbox>
         </div>
-      </div>
-      <div mat-dialog-actions>
-        <button mat-raised-button (click)="onNoClick()" color="accent"> Cancel </button>
-        <button mat-raised-button (click)="onNoClick()" color="primary" cdkFocusInitial> Save </button>
+        <div>
+          <button mat-raised-button (click)="onNoClick()" color="accent"> Cancel </button>
+          <button mat-raised-button (click)="onNoClick()" color="primary" cdkFocusInitial> Save </button>
+        </div>
       </div>
     </mat-tab>
   </mat-tab-group>

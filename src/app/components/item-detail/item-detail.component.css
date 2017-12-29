@@ -25,8 +25,14 @@ button {
 }
 
 #star {
+    font-size: 30px !important;
     color: gold;
 }
+
+#span-star {
+    font-size: 50px !important;
+}
+
 @media screen and (min-width: 768px) {
     .model mat-card {
         width: 600px;
@@ -41,5 +47,8 @@ button {
 @media screen and (max-width: 768px) {
     #model {
         margin-left: 23.68%;
+        width: 200px;
+        height: 200px;
+        position: relative;
     }
 }

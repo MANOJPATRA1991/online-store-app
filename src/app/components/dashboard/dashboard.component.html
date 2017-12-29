@@ -1,24 +1,24 @@
 <mat-sidenav-container class="sidenav">
-    <mat-sidenav *ngIf="itemService.sidenav" mode="side" align="end" opened class="mat-elevation-z6">
-        <div>
-            <mat-tab-group (selectedTabChange)="getItems($event)">
-                <mat-tab label="My Items">
-                    <app-items-list [cols]="cols" [items]="items" (itemEvent)="showDetails($event)"></app-items-list>
-                </mat-tab>
-                <span *ngFor="let group of groups">
-                    <mat-tab label="{{ group }}">
-                        <app-items-list [cols]="cols" [items]="items" (itemEvent)="showDetails($event)"></app-items-list>
-                    </mat-tab>
-                </span>
-                <mat-tab *ngIf="auth.admin" label="Need Approval">
-                    <app-items-list [cols]="cols" [items]="items" (itemEvent)="showDetails($event)"></app-items-list>
-                </mat-tab>
-                <mat-tab *ngIf="auth.admin" label="Incomplete">
-                    <app-items-list [cols]="cols" [items]="items" (itemEvent)="showDetails($event)"></app-items-list>
-                </mat-tab>
-            </mat-tab-group>
-        </div>
+    <mat-sidenav class="side" *ngIf="itemService.sidenav" mode="side" align="end" opened class="mat-elevation-z6">
+        <app-item-detail [model]="model" (approveEvent)="approveItem($event)"  (editEvent)="editItemForm(model)"></app-item-detail>
     </mat-sidenav>
+    <div id="divTab">
+        <mat-tab-group (selectedTabChange)="getItems($event)">
+            <mat-tab label="My Items">
+                <app-items-list [cols]="cols" [items]="items" (itemEvent)="showDetails($event)"></app-items-list>
+            </mat-tab>
+            <span *ngFor="let group of groups">
+                <mat-tab label="{{ group }}">
+                    <app-items-list [cols]="cols" [items]="items" (itemEvent)="showDetails($event)"></app-items-list>
+                </mat-tab>
+            </span>
+            <mat-tab *ngIf="auth.admin" label="Need Approval">
+                <app-items-list [cols]="cols" [items]="items" (itemEvent)="showDetails($event)"></app-items-list>
+            </mat-tab>
+            <mat-tab *ngIf="auth.admin" label="Incomplete">
+                <app-items-list [cols]="cols" [items]="items" (itemEvent)="showDetails($event)"></app-items-list>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
 
-    <app-item-detail [model]="model" (approveEvent)="approveItem($event)"  (editEvent)="editItemForm(model)"></app-item-detail>
 </mat-sidenav-container>
