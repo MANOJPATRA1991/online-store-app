@@ -41,13 +41,13 @@ import { FileSelectDirective } from 'ng2-file-upload';
 import { FormsModule } from '@angular/forms';
 
 import { routing } from './routing';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { SignupComponent } from './components/user/signup/signup.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { NavComponent } from './components/nav/nav.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UserService } from './services/user.service';
-import { UserComponent } from './components/user/user.component';
 import { EditUserComponent } from './components/user/edit-user/edit-user.component';
 import { CreateItemComponent } from './components/create-item/create-item.component';
 import { ItemService } from './services/item.service';
@@ -60,6 +60,7 @@ import { AddGroupComponent } from './components/add-group/add-group.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 import { StarRatingModule } from 'angular-star-rating';
+
 import { MailService } from './services/mail.service';
 import { ActivateGuard } from './guards/activate.guard';
 import { DeactivateGuard } from './guards/deactivate.guard';
@@ -71,7 +72,6 @@ import { DeactivateGuard } from './guards/deactivate.guard';
     LoginComponent,
     NavComponent,
     DashboardComponent,
-    UserComponent,
     EditUserComponent,
     CreateItemComponent,
     FileSelectDirective,
@@ -126,7 +126,8 @@ import { DeactivateGuard } from './guards/deactivate.guard';
     GroupService,
     MailService,
     ActivateGuard,
-    DeactivateGuard
+    DeactivateGuard,
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })
