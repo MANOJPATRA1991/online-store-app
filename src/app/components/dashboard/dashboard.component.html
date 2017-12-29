@@ -5,16 +5,9 @@
                 <mat-tab label="My Items">
                     <app-items-list [cols]="cols" [items]="items" (itemEvent)="showDetails($event)"></app-items-list>
                 </mat-tab>
-                <mat-tab label="Liked Items">
-                    <mat-form-field class="search">
-                        <input matInput placeholder="Search by item name" [(ngModel)]="searchText">
-                    </mat-form-field>
-                </mat-tab>
                 <span *ngFor="let group of groups">
                     <mat-tab label="{{ group }}">
-                        <mat-form-field class="search">
-                            <input matInput placeholder="Search by item name" [(ngModel)]="searchText">
-                        </mat-form-field>
+                        <app-items-list [cols]="cols" [items]="items" (itemEvent)="showDetails($event)"></app-items-list>
                     </mat-tab>
                 </span>
                 <mat-tab *ngIf="auth.admin" label="Need Approval">
@@ -27,5 +20,5 @@
         </div>
     </mat-sidenav>
 
-    <app-item-detail [model]="model" [value]="value" [color]="color" (approveEvent)="approveItem($event)"  (editEvent)="editItemForm(model)"></app-item-detail>
+    <app-item-detail [model]="model" (approveEvent)="approveItem($event)"  (editEvent)="editItemForm(model)"></app-item-detail>
 </mat-sidenav-container>
