@@ -73,4 +73,27 @@ export class ItemService {
     });
   }
 
+  getItemsByGroup(group) {
+    return this.http.get(`${baseURL}/items/groupedBy/${group}`, {headers: this.auth.headers})
+    .map(response => {
+      return response.json();
+    });
+  }
+
+  rateItem(rating, itemId) {
+    return this.http.post(`${baseURL}/items/rate/${itemId}`, 
+    {rating: rating}, {headers: this.auth.headers})
+    .map(response => {
+      return response.json().item;
+    });
+  }
+
+  deleteItem(itemId) {
+    return this.http.delete(`${baseURL}/items/remove/${itemId}`, 
+    {headers: this.auth.headers})
+    .map(response => {
+      return response.json();
+    });
+  }
+
 }
