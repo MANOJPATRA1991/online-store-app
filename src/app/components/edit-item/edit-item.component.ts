@@ -8,8 +8,9 @@ import { ItemService } from '../../services/item.service';
 import { Item } from '../../logic/Item';
 import { GroupService } from '../../services/group.service';
 
-const URL = 'https://item-store.herokuapp.com';
-// const URL = "http://localhost:3000";
+// const URL = 'https://item-store.herokuapp.com';
+const URL = "http://localhost:3000";
+
 @Component({
   selector: 'app-edit-item',
   templateUrl: './edit-item.component.html',

@@ -4,6 +4,7 @@
 
 body {
     background: rebeccapurple;
+    font-size: 1.2em !important;
 }
 
 .alertError {

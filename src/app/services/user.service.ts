@@ -6,14 +6,14 @@ import 'rxjs/add/operator/toPromise';
 import { User } from '../logic/User';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+// const baseURL = "https://item-store.herokuapp.com";
 const baseURL = "http://localhost:3000";
-
 
 @Injectable()
 export class UserService {
 
   TOKEN_KEY: string = 'Token';
-  message = '';
+  message: BehaviorSubject<string> = new BehaviorSubject<string>('');
   isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isVerified: boolean = false;
   admin: boolean = false;
@@ -73,17 +73,16 @@ export class UserService {
    * @param model
    */
   register(model): Promise<any> {
-    this.message = '';
+    this.message.next('');
     return this.http
       .post(baseURL + '/users/register', model, {headers: this.headers}).toPromise()
       .then((response) => {
-        this.message = '';
+        this.message.next('');
         this.login({username: model.username, password: model.password});
       })
       .catch((error) => {
-        console.log(error);
-        this.message = error.json().err.message;
-      })
+        this.message.next(error.json().err);
+      });
   }
 
   /**
@@ -91,10 +90,10 @@ export class UserService {
    * @param model
    */
   login(model): Promise<any> {
-    this.message = '';
+    this.message.next('');
     return this.http.post(baseURL + '/users/login', model, {headers: this.headers}).toPromise()
     .then((response) => {
-      this.message = '';
+      this.message.next('');
       this.storeUserCredentials({
         name: response.json().name,
         username: model.username,
@@ -106,7 +105,8 @@ export class UserService {
       this.route.navigateByUrl('/dashboard');
     })
     .catch((err) => {
-      this.message = err.json().err.message;
+      console.log(err.json().err.message);
+      this.message.next(err.json().err.message);
     });
   }
 
@@ -121,19 +121,26 @@ export class UserService {
       });
   }
 
+  /**
+   * Edit user's profile
+   * @param model 
+   */
   editProfile(model): Promise<any> {
     return this.http.put(`${baseURL}/users/edit/${this._id}`, model, {headers: this.headers}).toPromise()
     .then((response) => {
-      this.message = '';
+      this.message.next('');
       this.name.next(response.json().name);
       console.log(response.json().name);
     })
     .catch((err) => {
       console.log(err);
-      this.message = err.json().err.message;
+      this.message.next(err.json().err.message);
     });
   }
 
+  /**
+   * Get all groups for logged in user
+   */
   getMyGroups() {
     return this.http.get(`${baseURL}/users/myGroups`, {headers: this.headers})
     .map((response) => {
@@ -142,6 +149,10 @@ export class UserService {
     });
   }
 
+  /**
+   * Update user's groups
+   * @param data 
+   */
   updateMyGroups(data) {
     return this.http.put(`${baseURL}/users/updateGroups`, data, {headers: this.headers})
     .map((response) => {
@@ -150,6 +161,10 @@ export class UserService {
     });
   }
 
+  /**
+   * Get user data
+   * @param {string} uid : User id
+   */
   getUser(uid) {
     return this.http.get(`${baseURL}/users/${uid}`, {headers: this.headers})
     .map((response) => {
@@ -157,6 +172,9 @@ export class UserService {
     });
   }
 
+  /**
+   * Get all user emails
+   */
   getAllUsers() {
     return this.http.get(`${baseURL}/users/getAll`, {headers: this.headers})
     .map((response) => {
