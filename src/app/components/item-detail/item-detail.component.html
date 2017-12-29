@@ -1,48 +1,66 @@
 <div *ngIf="model.name" class="model">
   <mat-card>
-      <mat-card-title>{{ model.name }}</mat-card-title>
+        <mat-card-title>{{ model.name }}</mat-card-title>
+        <mat-card-subtitle id="complete" *ngIf="isComplete(model)">
+            COMPLETED
+        </mat-card-subtitle>
+        <mat-card-subtitle id="progress" *ngIf="!isComplete(model)">
+            IN PROGRESS
+        </mat-card-subtitle>
   </mat-card>
   <mat-card>
-      <mat-card-content>
-          <mat-progress-bar
-              [color]="color"
-              mode="determinate"
-              [value]="value"
-              bufferValue="75">
-          </mat-progress-bar>
-      </mat-card-content>
+        <mat-card-content>
+            <mat-progress-bar
+                [color]="color"
+                mode="determinate"
+                [value]="model.rating"
+                bufferValue="75">
+            </mat-progress-bar>
+        </mat-card-content>
   </mat-card>
-  <mat-card>
-      <img mat-card-image id="model" src="http://localhost:3000/{{model.image}}" alt="{{model.name}}">
-      <mat-card-content>
-          <mat-card-title>Description</mat-card-title>
-          <mat-card-subtitle>{{ model.description }}</mat-card-subtitle>
-      </mat-card-content>
-      <mat-card-content>
-          <p *ngIf="model.approved" id="approved">Item approved</p>
-          <p *ngIf="!model.approved" id="pending">Pending Approval</p>
-          <p><mat-icon id="star">star</mat-icon>{{ model.rating }}</p>
-      </mat-card-content>
-      <mat-card-content>
-          Expires on {{ model.time_limit | date: 'fullDate' }}
-      </mat-card-content>
-      <mat-card-actions>
-          <button mat-raised-button *ngIf="!model.approved && auth.admin" (click)="approveItem(model._id)">
-              <mat-icon>mode_edit</mat-icon> 
-              <span>Approve Item</span>
-          </button>
-      </mat-card-actions>
-      <mat-card-actions>
-          <button mat-raised-button *ngIf="(model.created_by == auth._id) || auth.admin" (click)="editItemForm()">
-              <mat-icon>mode_edit</mat-icon> 
-              <span>Edit</span>
-          </button>
-      </mat-card-actions>
-      <mat-card-actions>
-          <button mat-raised-button *ngIf="auth.admin">
-              <mat-icon>send</mat-icon> 
-              <span>Email item details</span>
-          </button>
-      </mat-card-actions>
-  </mat-card>
+    <mat-card>
+        <img mat-card-image id="model" src="http://localhost:3000/{{model.image}}" alt="{{model.name}}">
+        <mat-card-content>
+            <mat-card-title>Description</mat-card-title>
+            <mat-card-subtitle>{{ model.description }}</mat-card-subtitle>
+        </mat-card-content>
+        <mat-card-content>
+                <p *ngIf="model.approved" id="approved">Item approved</p>
+                <p *ngIf="!model.approved" id="pending">Pending Approval</p>
+                <p><mat-icon id="star">star</mat-icon>{{ model.rating }}</p>
+                <mat-card-title *ngIf="model.created_by !== auth._id">
+                    Rate this item
+                </mat-card-title>
+                <mat-card-subtitle *ngIf="model.created_by !== auth._id && !model.approved">
+                    You can rate this item once it is approved.
+                </mat-card-subtitle>
+                <star-rating-comp *ngIf="model.created_by !== auth._id && model.approved"
+                [size]="'large'"
+                [starType]="'svg'"
+                [hoverEnabled]="true"
+                (onClick)="onClick($event, model)">                             
+                </star-rating-comp>
+        </mat-card-content>
+        <mat-card-content>
+            Expires on {{ model.time_limit | date: 'fullDate' }}
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button *ngIf="!model.approved && auth.admin" (click)="approveItem(model._id)">
+                <mat-icon>mode_edit</mat-icon> 
+                <span>Approve Item</span>
+            </button>
+        </mat-card-actions>
+        <mat-card-actions>
+            <button mat-raised-button *ngIf="(model.created_by == auth._id) || auth.admin" (click)="editItemForm()">
+                <mat-icon>mode_edit</mat-icon> 
+                <span>Edit</span>
+            </button>
+        </mat-card-actions>
+        <mat-card-actions>
+            <button mat-raised-button *ngIf="auth.admin">
+                <mat-icon>send</mat-icon> 
+                <span>Email item details</span>
+            </button>
+        </mat-card-actions>
+    </mat-card>
 </div>

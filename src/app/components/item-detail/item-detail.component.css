@@ -16,6 +16,14 @@ button {
     color: red;
 }
 
+#complete {
+    color: green;
+}
+
+#progress {
+    color: blue;
+}
+
 #star {
     color: gold;
 }
