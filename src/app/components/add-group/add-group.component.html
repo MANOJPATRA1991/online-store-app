@@ -12,18 +12,19 @@
           <button mat-raised-button (click)="addNewGroup()" color="primary" cdkFocusInitial> Add </button>
         </div>
     </mat-tab>
-  </mat-tab-group>
-  <!-- <mat-tab label="Subscribe to new group" *ngIf="auth.admin">
-    <div mat-dialog-content>
-      <div *ngFor="let group of grps">
-        <mat-checkbox [checked]="auth..includes(group)" 
-        (change)="change($event, group)">
-          {{ group }}
-        </mat-checkbox>
+    <mat-tab label="Subscribe to new group">
+      <div mat-dialog-content>
+        <div *ngFor="let group of allGroups">
+          <mat-checkbox [checked]="myGroups.includes(group)" 
+          (change)="change($event, group)">
+            {{ group }}
+          </mat-checkbox>
+        </div>
       </div>
-    </div>
-    <div mat-dialog-actions>
-      <button mat-raised-button (click)="onNoClick()" color="primary" cdkFocusInitial> Save </button>
-    </div>
-  </mat-tab> -->
+      <div mat-dialog-actions>
+        <button mat-raised-button (click)="onNoClick()" color="accent"> Cancel </button>
+        <button mat-raised-button (click)="onNoClick()" color="primary" cdkFocusInitial> Save </button>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>

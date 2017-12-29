@@ -17,12 +17,19 @@ export class AddGroupComponent implements OnInit {
 
   group: string;
   allGroups: any = [];
+  myGroups: any = [];
 
   ngOnInit() {
 
     this.groups.getAllGroups().subscribe(value => {
       this.allGroups = value;
     });
+
+    this.auth.myGroups.subscribe(value => {
+      this.myGroups = value;
+    });
+
+    this.getMyGroups();
   }
 
   onNoClick(): void {
@@ -30,10 +37,26 @@ export class AddGroupComponent implements OnInit {
   }
 
   addNewGroup() {
-    this.groups.addNewGroup({newGroup: this.group})
+    this.groups.addNewGroup({newGroup: this.group.toUpperCase()})
     .subscribe(value => {
       this.allGroups = value;
       this.onNoClick();
+    });
+  }
+
+  getMyGroups() {
+    this.auth.getMyGroups().subscribe(value => {
+      this.myGroups = value;
+    });
+  }
+
+  change(event, group) {
+    this.auth.updateMyGroups({
+      newGroup: group,
+      checked: event.checked
+    }).subscribe(value => {
+      this.myGroups = value;
+      this.auth.myGroups.next(value);
     });
   }
 
