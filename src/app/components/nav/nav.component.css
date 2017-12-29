@@ -14,7 +14,11 @@
 }
 
 #menu {
-    right: 80px;
+    right: 40px;
+}
+
+#profile {
+    right: 100px;
 }
 
 #ico {
@@ -22,12 +26,11 @@
     bottom: 8px;
 }
 
-#profile {
-    right: 200px;
-}
-
 @media screen and (max-width: 600px) {
     #menu {
+        bottom: 8px;
+    }
+    #profile {
         bottom: 8px;
     }
 }
